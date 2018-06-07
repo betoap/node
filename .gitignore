@@ -62,3 +62,4 @@ typings/
 
 package-lock.json
 *.js
+.DS_Store
