@@ -13,7 +13,7 @@ export class Server {
     // The port the express app will listen on
     _port: string | number | boolean;
 
-    constructor() {
+    constructor( public debug:boolean = true ) {
         this._application = express();
         this._server = http.createServer( this._application );
         this._port = normalizePort( process.env.PORT || 3000 );
@@ -35,15 +35,17 @@ export class Server {
     handleRoutes( resolve, reject ) {
         try {
             this._server.listen( this._port, Proxy.create( this, this.handleListen, resolve ) );
-            this._server.on('error', onError( this._server ) );
-            this._server.on('listening', onListening( this._server ) );
         } catch (error) {
-            reject( error );
+            return reject( error );
         }
     }
 
     handleListen ( resolve ) {
-        resolve( this._server );
+        if( this.debug ){
+            this._server.on('error', onError( this._server ) );
+            this._server.on('listening', onListening( this._server ) );
+        }
+        return resolve( this._server );
     }
 
     private middleware(): void{

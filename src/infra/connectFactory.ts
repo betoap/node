@@ -1,5 +1,4 @@
 import { Sequelize } from 'sequelize-typescript';
-import Promise = require("bluebird");
 
 export class ConnectFacoty {
     
@@ -10,6 +9,11 @@ export class ConnectFacoty {
             const _credential:any = require('./../config/.credentials');
             this._instance = new Sequelize( _credential );
         };
-        return this._instance.sync();
+        try {
+            const db = this._instance.sync();
+            return Promise.resolve( db );
+        }catch( error ){
+            return Promise.reject( error );
+        }
     }
 }
