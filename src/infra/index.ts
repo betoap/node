@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript';
-import Promise = require("bluebird");
+import Promise = require( 'bluebird' );
 
 export class ConnectFacoty {
     

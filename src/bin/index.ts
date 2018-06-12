@@ -1,28 +1,6 @@
-/*import { Server } from './../server/server';
-import { ConnectFacoty } from './../infra/connectFactory';
-
-
-const _server = new Server();
-
-_server
-    .bootstrap()
-    .then( serv => 
-        { 
-            console.log( `Server run in :`, serv.getServer().address() );
-        }
-    ).catch( error => 
-        {
-            console.log(`Server failed to start`);
-            console.error( error );
-            process.exit( 1 )
-        }
-    );
-*/
-
-import { Server } from './../server/server';
-import { ConnectFacoty } from './../infra/connectFactory';
-import { normalizePort, onError, onListening, Proxy } from '../utils/utils';
-import * as http from 'http';
+import { Server } from '../server';
+import { ConnectFacoty } from '../infra';
+import { onError, onListening, Proxy } from '../utils';
 
 class ServerWeb {
     
@@ -49,7 +27,7 @@ class ServerWeb {
     }
 
     private handleError( error ): void {
-        console.log(`Server failed to start`);
+        console.log( `Server failed to start` );
         console.error( error );
         process.exit( 1 );
     }

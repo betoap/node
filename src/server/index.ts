@@ -2,9 +2,9 @@ import * as http from 'http';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import * as graphqlHTTP from 'express-graphql';
-import { normalizePort, onError, onListening, Proxy } from '../utils/utils';
+import { normalizePort, onError, onListening, Proxy } from '../utils';
 
-import schema from './../core/model/index';
+import schema from './../core/model';
 
 export class Server {
     // Create a new express application instance

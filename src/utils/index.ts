@@ -1,5 +1,4 @@
-import { Server } from "http";
-import { AddressInfo } from "net";
+import { Server } from 'http' ;
 
 export const normalizePort = (val: number | string): number | string | boolean => {
     let port: number = (typeof val === 'string') ? parseInt(val) : val;
