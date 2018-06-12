@@ -10,22 +10,20 @@ export const normalizePort = (val: number | string): number | string | boolean =
 
 export const onError = (server: Server) => {
     return (error: NodeJS.ErrnoException): void => {
-        let address = <AddressInfo>server.address();
-        let port: number | string = address.port;
+        let port: number | string = (<any>error).port;
         if (error.syscall !== 'listen') throw error;
         let bind = (typeof port === 'string') ? `pipe ${port}` : `port ${port}`;
         switch(error.code) {
             case 'EACCES':
                 console.error(`${bind} requires elevated privileges`);
-                process.exit(1);
                 break;
             case 'EADDRINUSE':
                 console.error(`${bind} is already in use`);
-                process.exit(1);
                 break;
             default:
                 throw error;
         }
+        process.exit(1);
     }
 }
 

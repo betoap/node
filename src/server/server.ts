@@ -5,15 +5,15 @@ import { normalizePort, onError, onListening, Proxy } from '../utils/utils';
 
 export class Server {
     // Create a new express application instance
-    _application: express.Application;
+    private _application: express.Application;
 
     // Instance http
-    _server:http.Server;
+    private _server:http.Server;
 
     // The port the express app will listen on
-    _port: string | number | boolean;
+    private _port: string | number | boolean;
 
-    constructor() {
+    constructor( private debug:boolean = false ) {
         this._application = express();
         this._server = http.createServer( this._application );
         this._port = normalizePort( process.env.PORT || 3000 );
@@ -24,26 +24,29 @@ export class Server {
         return this._server;
     }
 
-    bootstrap(): Promise<Server>{
+    public bootstrap(): Promise<Server>{
         return this.routes().then( () => this );
     }
 
-    routes(): Promise<any>{
+    private routes(): Promise<any>{
         return new Promise( Proxy.create( this, this.handleRoutes ) );
     }
 
-    handleRoutes( resolve, reject ) {
+    private handleRoutes( resolve, reject ) {
         try {
-            this._server.listen( this._port, Proxy.create( this, this.handleListen, resolve ) );
-            this._server.on('error', onError( this._server ) );
-            this._server.on('listening', onListening( this._server ) );
-        } catch (error) {
-            reject( error );
+            this.getServer().listen( this._port, Proxy.create( this, this.handleListen, resolve ) );
+            if ( this.debug ) {
+                this.getServer().on('error', onError( this.getServer() ) );
+                this.getServer().on('listening', onListening( this.getServer() ) );
+                resolve( this.getServer() );
+            }
+        } catch ( error ) {
+            return reject( error );
         }
     }
 
-    handleListen ( resolve ) {
-        resolve( this._server );
+    private handleListen ( resolve ) {
+        return resolve( this.getServer() );
     }
 
     private middleware(): void{
