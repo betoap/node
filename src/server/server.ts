@@ -35,13 +35,17 @@ export class Server {
     private handleRoutes( resolve, reject ) {
         try {
             this.getServer().listen( this._port, Proxy.create( this, this.handleListen, resolve ) );
-            if ( this.debug ) {
-                this.getServer().on('error', onError( this.getServer() ) );
-                this.getServer().on('listening', onListening( this.getServer() ) );
-                resolve( this.getServer() );
-            }
+            this.debugger();
+            resolve( this.getServer() );
         } catch ( error ) {
             return reject( error );
+        }
+    }
+
+    private debugger() {
+        if ( this.debug ) {
+            this.getServer().on('error', onError( this.getServer() ) );
+            this.getServer().on('listening', onListening( this.getServer() ) );
         }
     }
 
