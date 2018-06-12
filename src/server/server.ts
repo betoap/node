@@ -1,7 +1,10 @@
-import * as express from 'express';
 import * as http from 'http';
-import * as bodyParser from "body-parser";
+import * as express from 'express';
+import * as bodyParser from 'body-parser';
+import * as graphqlHTTP from 'express-graphql';
 import { normalizePort, onError, onListening, Proxy } from '../utils/utils';
+
+import schema from './../core/model/index';
 
 export class Server {
     // Create a new express application instance
@@ -59,5 +62,6 @@ export class Server {
         this._application.disable('x-powered-by');
         this._application.use( bodyParser.json() );
         this._application.use( bodyParser.urlencoded( { extended: false } ) );
+        this._application.use( '/graphql', graphqlHTTP( { schema, graphiql: process.env.NODE_ENV == 'development' }) );
     }
 }
