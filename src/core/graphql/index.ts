@@ -1,7 +1,9 @@
-import { userQueries, userMutation, userTypes, userResolve } from './user.graphql';
-import { makeExecutableSchema } from 'graphql-tools';
+//import { userQueries, userMutation, userTypes } from './user.graphql';
+//import { makeExecutableSchema } from 'graphql-tools';
+import * as query from 'graphql-query-mutation';
+console.log( query );
 
-
+/*
 export interface IQuery {
     query(): string;
 }
@@ -12,7 +14,11 @@ export interface IGraphql extends IQuery, IMutation {
     schema(): string;
 }
 
-export const resolvers = userResolve;
+
+//export const resolvers = userResolves;
+export const resolvers:Object = Query.getQueries();
+
+console.log(resolvers, "Betoap" );
 
 export class Graphql implements IGraphql {
     
@@ -48,9 +54,10 @@ export class Graphql implements IGraphql {
                 this.query(),
                 this.mutation(),
                 userTypes
-            ],
+            ], 
             resolvers
         });
     }
 
 };
+*/

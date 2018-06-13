@@ -71,7 +71,7 @@ export class Server {
         this._application.use( bodyParser.urlencoded( { extended: false } ) );
         this._application.use( '/graphql', graphqlHTTP( { 
             schema, 
-            graphiql: process.env.NODE_ENV == 'development',
+            graphiql: process.env.NODE_ENV != 'development',
             context: this._database
         }) );
     }
