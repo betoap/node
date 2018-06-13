@@ -2,10 +2,10 @@
   "name": "node",
   "version": "1.0.0",
   "description": "",
-  "main": "./dist/bin/www",
+  "main": "./dist/bin/index",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "set NODE_ENV=development nodemon ./dist/bin/www --delay 5"
+    "start": "NODE_ENV=development nodemon ./dist/bin/index --delay 5"
   },
   "repository": {
     "type": "git",

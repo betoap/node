@@ -1,3 +1,5 @@
+import User from "../../user/model/user.model";
+
 export const userTypes = `
     type User {
         id: ID!
@@ -28,3 +30,18 @@ export const userMutation = `
     updateUser( id: ID!, input: UserUpdateInput! ): User
 `;
 
+export const userResolve = {
+    Query: {
+        users: ( parent, params, context, info ) => {
+            const db = context.database;
+            return User.findAll({
+                limit: params.first || 10,
+                offset: params.offset || 0
+            });
+        },
+        user: ( parent, params, context, info ) => {
+            const id:number = parseInt( params.id );
+            return User.findById(id);
+        }
+    }
+}

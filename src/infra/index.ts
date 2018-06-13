@@ -5,11 +5,12 @@ export class ConnectFacoty {
     
     private static _instance: Sequelize;
 
-    public static getConnection () : Promise<any> {
+    public static getConnection () : Sequelize {
         if ( !this._instance ) {
             const _credential:any = require('./../config/.credentials');
             this._instance = new Sequelize( _credential );
         };
-        return this._instance.sync();
+        return this._instance;
     }
+
 }

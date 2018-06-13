@@ -10,6 +10,7 @@ class ServerWeb {
     
     private startServer(): Promise<Server> {
         const server = new Server( );
+        server.setDatabase( ConnectFacoty.getConnection() );
         server.getServer().on('error', onError( server.getServer() ) );
         server.getServer().on('listening', onListening( server.getServer() ) );
         return server.bootstrap();
@@ -17,13 +18,14 @@ class ServerWeb {
 
     private startDataBase() {
         ConnectFacoty
-        .getConnection()
-        .then(
-            Proxy.create( this, this.startServer )
-        )
-        .catch(
-            Proxy.create( this, this.handleError )
-        );
+            .getConnection()
+            .sync()
+            .then(
+                Proxy.create( this, this.startServer )
+            )
+            .catch(
+                Proxy.create( this, this.handleError )
+            );
     }
 
     private handleError( error ): void {

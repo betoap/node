@@ -1,4 +1,4 @@
-import { userQueries, userMutation, userTypes } from './user.graphql';
+import { userQueries, userMutation, userTypes, userResolve } from './user.graphql';
 import { makeExecutableSchema } from 'graphql-tools';
 
 
@@ -11,6 +11,8 @@ export interface IMutation {
 export interface IGraphql extends IQuery, IMutation {
     schema(): string;
 }
+
+export const resolvers = userResolve;
 
 export class Graphql implements IGraphql {
     
@@ -40,13 +42,14 @@ export class Graphql implements IGraphql {
     }
 
     execute() {
-        makeExecutableSchema({
+        return makeExecutableSchema({
             typeDefs: [
                 this.schema(),
                 this.query(),
                 this.mutation(),
                 userTypes
-            ]
+            ],
+            resolvers
         });
     }
 
