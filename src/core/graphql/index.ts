@@ -1,28 +1,10 @@
-//import { userQueries, userMutation, userTypes } from './user.graphql';
-//import { makeExecutableSchema } from 'graphql-tools';
-import * as query from 'graphql-query-mutation';
-console.log( query );
+import { userQueries, userMutation, userTypes } from './user.graphql';
+import { makeExecutableSchema, IResolvers, IResolverObject } from 'graphql-tools';
+import { Query, Mutation } from 'graphql-query-mutation';
 
-/*
-export interface IQuery {
-    query(): string;
-}
-export interface IMutation {
-    mutation(): string;
-}
-export interface IGraphql extends IQuery, IMutation {
-    schema(): string;
-}
-
-
-//export const resolvers = userResolves;
-export const resolvers:Object = Query.getQueries();
-
-console.log(resolvers, "Betoap" );
-
-export class Graphql implements IGraphql {
+export class Graphql {
     
-    public schema(): string {
+    private schema(): string {
         return `
             type Schema {
                 query: Query
@@ -31,7 +13,7 @@ export class Graphql implements IGraphql {
         `;
     };
 
-    public mutation(): string {
+    private mutation(): string {
         return `
             type Mutation {
                 ${userMutation}
@@ -39,7 +21,7 @@ export class Graphql implements IGraphql {
         `;
     }
     
-    public query(): string {
+    private query(): string {
         return `
             type Query {
                 ${userQueries}
@@ -47,17 +29,25 @@ export class Graphql implements IGraphql {
         `;
     }
 
+    private resolvers(): IResolvers<any, any> {
+        return {
+            "Query": (<IResolverObject>Query.getQueries()),
+            "Mutation": (<IResolverObject>Mutation.getMutations()),
+        }
+    }
+
     execute() {
+        const resolvers:IResolvers<any, any> = this.resolvers();
         return makeExecutableSchema({
             typeDefs: [
                 this.schema(),
                 this.query(),
                 this.mutation(),
                 userTypes
-            ], 
+            ],
             resolvers
+            
         });
     }
 
 };
-*/

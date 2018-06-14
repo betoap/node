@@ -1,6 +1,6 @@
 //import { Query } from './user.graphql';
 import User from "../../user/model/user.model";
-import { query } from 'graphql-query-mutation/annotations';
+import { query, mutation } from 'graphql-query-mutation/annotations';
 
 export const userTypes = `
     type User {
@@ -47,22 +47,16 @@ export class UserResolve {
         const id:number = parseInt( params.id );
         return User.findById(id);
     }
-}
 
-/*
-export const userResolve = {
-    Query: {
-        users: ( parent, params, context, info ) => {
-            const db = context.database;
-            return User.findAll({
-                limit: params.first || 10,
-                offset: params.offset || 0
-            });
-        },
-        user: ( parent, params, context, info ) => {
-            const id:number = parseInt( params.id );
-            return User.findById(id);
-        }
+    @mutation
+    createUser( parent, params, context, info ) {
+        const id:number = parseInt( params.id );
+        return User.findById(id);
+    }
+
+    @mutation
+    updateUser( parent, params, context, info ) {
+        const id:number = parseInt( params.id );
+        return User.findById(id);
     }
 }
-*/
